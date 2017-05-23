@@ -18,4 +18,21 @@ to a swarm. Without any work, the web workers will find the redis process
 thanks to Docker's internal DNS magic. Additionally, the nginx and web services
 can be scaled up as much as you wish. You'll be able to see how when you make
 a request to the swarm, it will automatically load balance the requests across
-the running containers.
+the running containers. It also emphasizes just how easy Swarm makes it to
+securely store and deploy your app's secrets.
+
+## How do I get started?
+To test the app on your computer without Swarm mode, simply run:
+```
+docker-compose up
+```
+
+If you're on a machine (or several machines) with Swarm, you can deploy it as
+a stack:
+```
+echo "supersecretpassword" | docker secret create db_password -
+
+docker stack deploy -c docker-compose.yml demo
+```
+
+The first line defines the `db_password` secret in your Swarm, and the second deploys the actual stack.
