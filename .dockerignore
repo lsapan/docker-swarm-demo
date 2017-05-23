@@ -1,0 +1,8 @@
+.git
+.gitignore
+.DS_Store
+*.pyc
+LICENSE
+README.md
+docker-compose.override.yml
+docker-compose.yml
