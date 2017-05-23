@@ -4,6 +4,8 @@ import uuid
 from flask import Flask, render_template
 from redis import Redis
 
+from secrets import secret, SecretNotFoundError
+
 # Create the flask application
 app = Flask(__name__)
 
@@ -13,6 +15,12 @@ redis.setnx('num_requests', 0)
 
 # Get the id of the docker container we're running in (it's our hostname)
 container_id = socket.gethostname()
+
+# Read our example secret
+try:
+    db_password = secret('db_password')
+except SecretNotFoundError:
+    db_password = 'NOT SET'
 
 
 @app.route('/')
@@ -25,6 +33,7 @@ def home():
         'home.html',
         container_id=container_id,
         num_requests=int(redis.get('num_requests')),
+        db_password=db_password,
     )
 
 if __name__ == '__main__':
