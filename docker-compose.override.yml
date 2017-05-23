@@ -2,8 +2,20 @@ version: '3.1'
 
 services:
     web:
+        build:
+            context: .
+            dockerfile: deployment/Dockerfile.web
         command: 'python app.py'
+        links:
+            - redis
         ports:
             - 5000:5000
         volumes:
             - .:/home/docker/code
+
+    nginx:
+        build:
+            context: .
+            dockerfile: deployment/Dockerfile.nginx
+        links:
+            - web
